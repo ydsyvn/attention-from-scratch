@@ -1,5 +1,5 @@
 import numpy as np
-from math_utils import softmax
+from attention.math_utils import softmax
 
 class BaseAttention:
     def __init__(self, d_model=128):
@@ -31,8 +31,8 @@ class BaseAttention:
         attn_scores = np.where(mask == 0, -1e9, attn_scores) # (seq_len, seq_len)
         
         # apply softmax
-        att_weights = softmax(attn_scores)
+        attn_weights = softmax(attn_scores) # (seq_len, seq_len)
         
-        output = att_weights @ V
+        output = attn_weights @ V # (seq_len, d_model)
         
-        return output, attn_scores
+        return output, attn_weights

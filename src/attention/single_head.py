@@ -1,7 +1,7 @@
 import numpy as np
 from attention.math_utils import softmax
 
-class BaseAttention:
+class SingleHead:
     def __init__(self, d_model=128):
         self.d_model = d_model
         self.scale = 1.0 / np.sqrt(d_model)
@@ -24,7 +24,7 @@ class BaseAttention:
         K = self.W_k @ x # (seq_len, d_model)
         V = self.W_v @ x # (seq_len, d_model)
         
-        # 
+        # compute scores and apply mask
         mask = np.tril(np.ones((seq_len, seq_len))) # (seq_len, seq_len)
 
         attn_scores = Q @ K.transpose() / self.scale # (seq_len, seq_len)
